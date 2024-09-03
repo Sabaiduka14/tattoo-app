@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 import { CopyPlus, Plus, Upload } from 'lucide-react';
 
 export function UploadDialog({ onUploadComplete }: { onUploadComplete: () => void }) {
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | any>(null);
   const [title, setTitle] = useState('');
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,7 +28,7 @@ export function UploadDialog({ onUploadComplete }: { onUploadComplete: () => voi
     if (!validateInput()) return;
     setUploading(true);
     try {
-      const fileName = `${Date.now()}-${file.name}`;
+      const fileName = file ? `${Date.now()}-${file.name}` : '';
       const { data, error } = await supabase.storage
         .from('tattoos')
         .upload(fileName, file);
